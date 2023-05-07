@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:codigo6_movieapp/models/movie_model.dart';
 import 'package:codigo6_movieapp/pages/detail_page.dart';
+import 'package:codigo6_movieapp/services/api_service.dart';
 import 'package:codigo6_movieapp/ui/general/colors.dart';
 import 'package:codigo6_movieapp/widgets/item_home_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,8 @@ class _HomePageState extends State<HomePage> {
   List<MovieModel> moviesModel = [];
 
   getDataInternet() async {
-    Uri url = Uri.parse(
-        "https://api.themoviedb.org/3/discover/movie?api_key=668dfd6ba68b6a7595f5d83a2a683550&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate");
-    http.Response response = await http.get(url);
-    Map data = json.decode(response.body);
-    List movies = data["results"];
-    moviesModel = movies.map((e) => MovieModel.fromJson(e)).toList();
+    ApiService apiService = ApiService();
+    moviesModel = await apiService.getMovies();
     setState(() {});
   }
 
@@ -71,7 +68,9 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailPage()));
+                              builder: (context) => DetailPage(
+                                idMovie: moviesModel[index].id,
+                              )));
                     },
                   );
                 },

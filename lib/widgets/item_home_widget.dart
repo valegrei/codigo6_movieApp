@@ -1,6 +1,7 @@
 
 import 'package:codigo6_movieapp/models/movie_model.dart';
 import 'package:codigo6_movieapp/ui/general/colors.dart';
+import 'package:codigo6_movieapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class ItemHomeWidget extends StatelessWidget {
@@ -23,7 +24,7 @@ class ItemHomeWidget extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                  "https://image.tmdb.org/t/p/w500${model.posterPath}"),
+                  "$apiImageUrl${model.posterPath}"),
             )),
         child: Stack(
           children: [
